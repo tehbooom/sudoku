@@ -1,0 +1,7 @@
+build: main.cpp
+	g++ -g -Wall main.cpp -o sudoku
+
+run:
+	./sudoku
+
+all: build run
