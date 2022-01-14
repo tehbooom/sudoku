@@ -4,6 +4,9 @@ My first C++ program is going to be my favorite game sudoku all on the command l
 
 ## BOX
 
+im hiding box becuase its gross in markdown
+
+<!-- 
 ┏━━━┯━━━┯━━━┳━━━┯━━━┯━━━┳━━━┯━━━┯━━━┓
 ┃ 1 │ 1 │ 1 ┃ 1 │ 1 │ 1 ┃ 1 │ 1 │ 1 ┃
 ┠───┼───┼───╂───┼───┼───╂───┼───┼───┫
@@ -22,7 +25,7 @@ My first C++ program is going to be my favorite game sudoku all on the command l
 ┃ 1 │ 1 │ 1 ┃ 1 │ 1 │ 1 ┃ 1 │ 1 │ 1 ┃
 ┠───┼───┼───╂───┼───┼───╂───┼───┼───┫
 ┃ 1 │ 1 │ 1 ┃ 1 │ 1 │ 1 ┃ 1 │ 1 │ 1 ┃
-┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
+┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛ -->
 
 ## Matrix
 
