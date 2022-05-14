@@ -1,0 +1,3 @@
+Set element in matrix if = to 0 as space on board
+Check if position entered by player is an orignal number placed by the puzzle
+Remove numbers in generated puzzle, check if the puzzle is still solvable
