@@ -1,4 +1,5 @@
-Set element in matrix if = to 0 as space on board
 Check if position entered by player is an orignal number placed by the puzzle
 Remove numbers in generated puzzle, check if the puzzle is still solvable
 Add colors and styling to board and numbers to idnefity already placed numbers and identify boxes better
+Import game into main and generate puzzle
+Creat a Test if package GAME can generate a real sudoku puzzle

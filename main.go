@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	_ "github.com/tehbooom/sudoku/board"
+	_ "github.com/tehbooom/sudoku/game"
 
 	"github.com/mbndr/figlet4go"
 )
@@ -21,6 +22,7 @@ func main() {
 	fmt.Print(renderStr)
 
 	game.Start()
+
 	// start infinite game loop
 	for {
 
