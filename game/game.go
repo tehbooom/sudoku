@@ -13,7 +13,8 @@ const (
 )
 
 type State struct {
-	Board [Size][Size]int
+	Board       [Size][Size]int
+	SolvedBoard [Size][Size]int
 }
 
 var dictOriginalValues []int
@@ -21,7 +22,9 @@ var dictOriginalValues []int
 func (s *State) Start(difficulty int) {
 	s.fillDiagnol()
 	s.fillRemaining(0, 3)
+	s.SolvedBoard = s.Board
 	s.removeCells(difficulty)
+	s.setOriginalValue()
 }
 
 func generateNum() int {
@@ -37,21 +40,18 @@ func (s *State) fillDiagnol() {
 }
 
 func (s *State) isValid(row, col, num int) bool {
-	// Check if num is already in the same row
 	for i := 0; i < Size; i++ {
 		if s.Board[row][i] == num {
 			return false
 		}
 	}
 
-	// Check if num is already in the same column
 	for i := 0; i < Size; i++ {
 		if s.Board[i][col] == num {
 			return false
 		}
 	}
 
-	// Check if num is already in the same 3x3 box
 	boxRow := row - row%3
 	boxCol := col - col%3
 	for i := boxRow; i < boxRow+3; i++ {
@@ -62,7 +62,6 @@ func (s *State) isValid(row, col, num int) bool {
 		}
 	}
 
-	// If num is not already in the same row, column, or box, it is valid
 	return true
 }
 
@@ -122,6 +121,7 @@ func (s *State) setOriginalValue() {
 	for i := 0; i < Size; i++ {
 		for j := 0; j < Size; j++ {
 			if s.Board[i][j] != 0 {
+
 				value, err := strconv.Atoi(fmt.Sprintf("%d%d", i, j))
 				if err != nil {
 					panic(err)
@@ -132,6 +132,20 @@ func (s *State) setOriginalValue() {
 	}
 }
 
-// func (s *State) checkForWinner() string {
-// 	// figure out a better way to check for winner
-// }
+func (s *State) CheckForWinner() string {
+	for i := 0; i < Size; i++ {
+		for j := 0; j < Size; j++ {
+			if s.Board[i][j] == 0 {
+				return "incomplete"
+			}
+		}
+	}
+	for i := 0; i < Size; i++ {
+		for j := 0; j < Size; j++ {
+			if s.Board[i][j] != s.SolvedBoard[i][j] {
+				return "completeWrong"
+			}
+		}
+	}
+	return "winner"
+}

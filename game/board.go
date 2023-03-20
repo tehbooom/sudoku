@@ -5,25 +5,27 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/aybabtme/rgbterm"
+	"github.com/common-nighthawk/go-figure"
 	"github.com/tehbooom/sudoku/style"
 )
 
 // prints the sudoku board with all values from game
 func (s *State) PrintBoard() {
 	topBox := strings.Repeat(style.HorizontalBoxSeparator+style.TopColumnSeparator, 2) + style.HorizontalBoxSeparator + style.TopBoxSeparator
-	var top string = style.TopLeft + strings.Repeat(topBox, 2) + strings.Repeat(style.HorizontalBoxSeparator+style.TopColumnSeparator, 2) + style.HorizontalBoxSeparator + style.TopRight
+	var top string = "  " + style.TopLeft + strings.Repeat(topBox, 2) + strings.Repeat(style.HorizontalBoxSeparator+style.TopColumnSeparator, 2) + style.HorizontalBoxSeparator + style.TopRight
 	// ┏━━━┯━━━┯━━━┳━━━┯━━━┯━━━┳━━━┯━━━┯━━━┓
 
 	bottomBox := strings.Repeat(style.HorizontalBoxSeparator+style.BottomColumnSeparator, 2) + style.HorizontalBoxSeparator + style.BottomBoxSeparator
-	var bottom string = style.BottomLeft + strings.Repeat(bottomBox, 2) + strings.Repeat(style.HorizontalBoxSeparator+style.BottomColumnSeparator, 2) + style.HorizontalBoxSeparator + style.BottomRight + style.N1
+	var bottom string = "  " + style.BottomLeft + strings.Repeat(bottomBox, 2) + strings.Repeat(style.HorizontalBoxSeparator+style.BottomColumnSeparator, 2) + style.HorizontalBoxSeparator + style.BottomRight + style.N1
 	// ┗━━━┷━━━┷━━━┻━━━┷━━━┷━━━┻━━━┷━━━┷━━━┛
 
 	rowColumn := strings.Repeat(style.HorizontalRowSeparator+style.MiddleColumnSeparator, 2) + style.HorizontalRowSeparator + style.VerticalBoxColumnSeparator
-	rowSeparator := style.LeftRowSeparator + strings.Repeat(rowColumn, 2) + strings.Repeat(style.HorizontalRowSeparator+style.MiddleColumnSeparator, 2) + style.HorizontalRowSeparator + style.RightRowSeparator
+	rowSeparator := "  " + style.LeftRowSeparator + strings.Repeat(rowColumn, 2) + strings.Repeat(style.HorizontalRowSeparator+style.MiddleColumnSeparator, 2) + style.HorizontalRowSeparator + style.RightRowSeparator
 	// ┠───┼───┼───╂───┼───┼───╂───┼───┼───┨
 
 	rowBox := strings.Repeat(style.HorizontalBoxSeparator+style.MiddleHybridSeparator, 2) + style.HorizontalBoxSeparator + style.MiddleBoxSeparator
-	boxSeparator := style.LeftBoxSeparator + strings.Repeat(rowBox, 2) + strings.Repeat(style.HorizontalBoxSeparator+style.MiddleHybridSeparator, 2) + style.HorizontalBoxSeparator + style.RightBoxSeparator
+	boxSeparator := "  " + style.LeftBoxSeparator + strings.Repeat(rowBox, 2) + strings.Repeat(style.HorizontalBoxSeparator+style.MiddleHybridSeparator, 2) + style.HorizontalBoxSeparator + style.RightBoxSeparator
 	// ┣━━━┿━━━┿━━━╋━━━┿━━━┿━━━╋━━━┿━━━┿━━━┫
 
 	// ┃ 1 │ 2 │ 3 ┃ 4 │ 5 │ 6 ┃ 7 │ 8 │ 9 ┃ * 9
@@ -56,6 +58,11 @@ func (s *State) PrintBoard() {
 			str += fmt.Sprintf("\n%s", i)
 		}
 	}
+	columnNums := "\n    1   2   3   4   5   6   7   8   9\n"
+	coloredColumnNums := rgbterm.FgString(columnNums, 215, 95, 0)
+	myFigure := figure.NewColorFigure("suGOku", "", "blue", true)
+	myFigure.Print()
+	fmt.Printf(coloredColumnNums)
 	fmt.Println(top)    // prints top
 	fmt.Println(str)    // prints every element in slice contents line by line
 	fmt.Println(bottom) // prints bottom
@@ -68,16 +75,29 @@ func (s *State) getNum(row int) string {
 	for j := 0; j < Size; j++ {
 		number := s.Board[row][j]
 		numberString := strconv.Itoa(number)
+		newValue, err := strconv.Atoi(fmt.Sprintf("%d%d", row, j))
+		if err != nil {
+			panic(err)
+		}
 		if numberString == "0" {
 			numbers[j] = " "
 		} else {
-			numbers[j] = numberString
+			coloredNumberString := rgbterm.FgString(numberString, 135, 175, 0)
+			numbers[j] = coloredNumberString
+		}
+		for _, element := range dictOriginalValues {
+			if newValue == element {
+				coloredNumberString := rgbterm.FgString(numberString, 95, 135, 135)
+				numbers[j] = coloredNumberString
+			}
 		}
 	}
 	fmt.Println()
 	Box1 := " " + numbers[0] + " " + style.VerticalColumnSeparator + " " + numbers[1] + " " + style.VerticalColumnSeparator + " " + numbers[2] + " "
 	Box2 := style.VerticalBoxSeparator + " " + numbers[3] + " " + style.VerticalColumnSeparator + " " + numbers[4] + " " + style.VerticalColumnSeparator + " " + numbers[5] + " "
 	Box3 := style.VerticalBoxSeparator + " " + numbers[6] + " " + style.VerticalColumnSeparator + " " + numbers[7] + " " + style.VerticalColumnSeparator + " " + numbers[8] + " "
-	var completerow string = style.VerticalBoxSeparator + Box1 + Box2 + Box3 + style.VerticalBoxSeparator
+	rowNums := strconv.Itoa(row + 1)
+	coloredRowNums := rgbterm.FgString(rowNums, 215, 95, 0)
+	var completerow string = coloredRowNums + " " + style.VerticalBoxSeparator + Box1 + Box2 + Box3 + style.VerticalBoxSeparator
 	return completerow
 }
